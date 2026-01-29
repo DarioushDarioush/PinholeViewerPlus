@@ -407,6 +407,19 @@ export default function Index() {
             </View>
           </View>
 
+          {/* Exposure Display - Below top bar */}
+          {calculatedExposure && selectedCondition && (
+            <View style={styles.exposureDisplay}>
+              <View style={styles.exposureDisplayRow}>
+                <Text style={styles.exposureDisplayLabel}>Exposure:</Text>
+                <Text style={styles.exposureDisplayValue}>{calculatedExposure}</Text>
+              </View>
+              <Text style={styles.exposureDisplayCondition}>
+                {selectedCondition}{useRedFilter ? ' • Red Filter' : ''}
+              </Text>
+            </View>
+          )}
+
           {/* Bottom Control Bar */}
           <View style={styles.bottomBar}>
             <View style={styles.bottomInfo}>
