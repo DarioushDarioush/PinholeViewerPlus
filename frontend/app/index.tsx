@@ -427,6 +427,14 @@ export default function Index() {
 
               <TouchableOpacity
                 style={styles.controlButton}
+                onPress={() => setShowExposure(true)}
+              >
+                <Ionicons name="sunny-outline" size={24} color={AMBER} />
+                <Text style={styles.controlButtonText}>Exposure</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.controlButton}
                 onPress={() => setShowProfiles(true)}
               >
                 <MaterialIcons name="bookmark-outline" size={24} color={AMBER} />
