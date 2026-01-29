@@ -623,8 +623,7 @@ export default function Index() {
               <TouchableOpacity
                 onPress={() => {
                   setShowExposure(false);
-                  setSelectedCondition(null);
-                  setCalculatedExposure(null);
+                  // Don't clear the exposure state - keep it for viewfinder overlay
                 }}
               >
                 <Ionicons name="close" size={28} color={AMBER} />
