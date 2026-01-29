@@ -249,20 +249,7 @@ export default function Index() {
             <Text style={styles.controlButtonText}>Settings</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[styles.controlButton, styles.meterButton]}
-            onPress={performLightMeter}
-            disabled={isMetering}
-          >
-            <MaterialIcons
-              name="light-mode"
-              size={28}
-              color={isMetering ? '#666' : AMBER}
-            />
-            <Text style={styles.controlButtonText}>
-              {isMetering ? 'Metering...' : 'Meter'}
-            </Text>
-          </TouchableOpacity>
+          {/* Light meter button removed */}
 
           <TouchableOpacity
             style={styles.controlButton}
