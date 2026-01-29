@@ -52,10 +52,23 @@ export default function Index() {
   const [useRedFilter, setUseRedFilter] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showProfiles, setShowProfiles] = useState(false);
+  const [showExposure, setShowExposure] = useState(false);
+  const [selectedCondition, setSelectedCondition] = useState<string | null>(null);
+  const [calculatedExposure, setCalculatedExposure] = useState<string | null>(null);
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [profileName, setProfileName] = useState('');
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
   const cameraRef = useRef<any>(null);
+
+  // Lighting conditions for Sunny 16 rule
+  const lightingConditions = [
+    { name: 'Snow/Sandy', fStop: 22, icon: '☀️❄️', description: 'Very bright, snow or beach' },
+    { name: 'Clear/Sunny', fStop: 16, icon: '☀️', description: 'Bright sun with distinct shadows' },
+    { name: 'Slightly Overcast', fStop: 11, icon: '🌤️', description: 'Hazy sun, soft shadows' },
+    { name: 'Overcast', fStop: 8, icon: '☁️', description: 'Cloudy, no shadows' },
+    { name: 'Heavy Overcast', fStop: 5.6, icon: '☁️☁️', description: 'Dark clouds' },
+    { name: 'Open Shade/Sunset', fStop: 4, icon: '🌅', description: 'Shade or sunset/sunrise' },
+  ];
 
   useEffect(() => {
     loadProfiles();
