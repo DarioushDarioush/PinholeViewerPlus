@@ -593,10 +593,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: DARK_BG,
   },
+  cameraContainer: {
+    flex: 1,
+    position: 'relative',
+  },
   camera: {
     flex: 1,
   },
   overlayContainer: {
+    ...StyleSheet.absoluteFillObject,
     flex: 1,
   },
   greyArea: {
