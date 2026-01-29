@@ -44,7 +44,7 @@ interface Profile {
 }
 
 export default function Index() {
-  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [permission, requestPermission] = useCameraPermissions();
   const [focalLength, setFocalLength] = useState(50);
   const [pinholeSize, setPinholeSize] = useState(0.3);
   const [filmFormat, setFilmFormat] = useState(FILM_FORMATS[2]); // 6x6 default
@@ -59,11 +59,7 @@ export default function Index() {
   const cameraRef = useRef<any>(null);
 
   useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === 'granted');
-      loadProfiles();
-    })();
+    loadProfiles();
   }, []);
 
   const loadProfiles = async () => {
