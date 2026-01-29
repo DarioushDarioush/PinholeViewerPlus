@@ -593,6 +593,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
+  controlButtonsLandscape: {
+    justifyContent: 'center',
+    gap: 40,
+  },
   controlButton: {
     alignItems: 'center',
     padding: 8,
