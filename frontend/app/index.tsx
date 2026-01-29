@@ -59,6 +59,7 @@ export default function Index() {
   const [profileName, setProfileName] = useState('');
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
   const cameraRef = useRef<any>(null);
+  const exposureScrollRef = useRef<any>(null);
 
   // Lighting conditions for Sunny 16 rule
   const lightingConditions = [
