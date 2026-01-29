@@ -289,7 +289,20 @@ export default function Index() {
                     height: viewfinderSize.height,
                   },
                 ]}
-              />
+              >
+                {/* Exposure Result Overlay - Inside Viewfinder */}
+                {calculatedExposure && selectedCondition && (
+                  <View style={styles.viewfinderExposureOverlay}>
+                    <View style={styles.viewfinderExposureBox}>
+                      <Text style={styles.viewfinderExposureLabel}>Exposure:</Text>
+                      <Text style={styles.viewfinderExposureValue}>{calculatedExposure}</Text>
+                      <Text style={styles.viewfinderExposureCondition}>
+                        {selectedCondition}{useRedFilter ? ' • Red Filter' : ''}
+                      </Text>
+                    </View>
+                  </View>
+                )}
+              </View>
               <View style={styles.greyArea} />
             </View>
             <View style={styles.greyArea} />
