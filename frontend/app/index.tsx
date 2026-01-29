@@ -615,6 +615,65 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 8,
   },
+  landscapeContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  landscapeCameraSection: {
+    flex: 2,
+    position: 'relative',
+  },
+  landscapeInfoPanel: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.95)',
+    borderLeftWidth: 2,
+    borderLeftColor: AMBER,
+  },
+  landscapeInfoScroll: {
+    flex: 1,
+  },
+  landscapeInfoContent: {
+    padding: 20,
+    paddingTop: 40,
+  },
+  landscapeInfoSection: {
+    marginBottom: 30,
+  },
+  landscapeSectionTitle: {
+    color: AMBER,
+    fontSize: 12,
+    fontWeight: 'bold',
+    letterSpacing: 2,
+    marginBottom: 16,
+  },
+  landscapeInfoRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+    paddingVertical: 4,
+  },
+  landscapeControlSection: {
+    marginTop: 20,
+    gap: 16,
+  },
+  landscapeButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: CHARCOAL,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: AMBER,
+  },
+  landscapeButtonText: {
+    color: AMBER,
+    fontSize: 16,
+    fontWeight: '600',
+    marginLeft: 12,
+  },
   infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
