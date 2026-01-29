@@ -173,6 +173,11 @@ export default function Index() {
     setSelectedCondition(condition.name);
     const exposure = calculateSunny16Exposure(condition);
     setCalculatedExposure(exposure);
+    
+    // Scroll to top to reveal exposure result
+    setTimeout(() => {
+      exposureScrollRef.current?.scrollTo({ y: 0, animated: true });
+    }, 100);
   };
 
   // Calculate optimal pinhole diameter
