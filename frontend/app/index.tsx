@@ -939,4 +939,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 8,
   },
+  permissionButton: {
+    backgroundColor: AMBER,
+    paddingHorizontal: 32,
+    paddingVertical: 16,
+    borderRadius: 8,
+    marginTop: 24,
+  },
+  permissionButtonText: {
+    color: DARK_BG,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
