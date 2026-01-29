@@ -261,70 +261,7 @@ export default function Index() {
         </View>
       </View>
 
-      {/* Exposure Data Display */}
-      {exposureData && (
-        <View style={styles.exposurePanel}>
-          <View style={styles.exposureHeader}>
-            <Text style={styles.exposureTitle}>EXPOSURE READING</Text>
-            <TouchableOpacity onPress={() => setExposureData(null)}>
-              <Ionicons name="close" size={24} color={AMBER} />
-            </TouchableOpacity>
-          </View>
-          
-          {currentEV !== null && (
-            <View style={styles.evDisplay}>
-              <Text style={styles.evLabel}>Measured EV:</Text>
-              <Text style={styles.evValue}>
-                {currentEV.toFixed(1)} 
-                {meterCalibration !== 0 && (
-                  <Text style={styles.evCalibration}>
-                    {' '}({meterCalibration > 0 ? '+' : ''}{meterCalibration.toFixed(1)})
-                  </Text>
-                )}
-              </Text>
-            </View>
-          )}
-          
-          <View style={styles.exposureMain}>
-            <Text style={styles.exposureLabel}>Suggested Exposure:</Text>
-            <Text style={styles.exposureValue}>{exposureData.suggestedExposure}</Text>
-          </View>
-          
-          <View style={styles.exposureBracketing}>
-            <Text style={styles.bracketTitle}>Bracketing:</Text>
-            <View style={styles.bracketRow}>
-              <Text style={styles.bracketLabel}>-2:</Text>
-              <Text style={styles.bracketValue}>{exposureData.bracketMinus2}</Text>
-            </View>
-            <View style={styles.bracketRow}>
-              <Text style={styles.bracketLabel}>-1:</Text>
-              <Text style={styles.bracketValue}>{exposureData.bracketMinus1}</Text>
-            </View>
-            <View style={styles.bracketRow}>
-              <Text style={styles.bracketLabel}>+1:</Text>
-              <Text style={styles.bracketValue}>{exposureData.bracketPlus1}</Text>
-            </View>
-            <View style={styles.bracketRow}>
-              <Text style={styles.bracketLabel}>+2:</Text>
-              <Text style={styles.bracketValue}>{exposureData.bracketPlus2}</Text>
-            </View>
-          </View>
-          
-          <View style={styles.exposureAdvice}>
-            <Text style={styles.adviceText}>{exposureData.pinholeAdvice}</Text>
-          </View>
-          
-          {exposureData.warnings.length > 0 && (
-            <View style={styles.warningsContainer}>
-              {exposureData.warnings.map((warning: string, index: number) => (
-                <Text key={index} style={styles.warningText}>
-                  ⚠ {warning}
-                </Text>
-              ))}
-            </View>
-          )}
-        </View>
-      )}
+      {/* Exposure data display removed */}
 
       {/* Settings Modal */}
       <Modal
