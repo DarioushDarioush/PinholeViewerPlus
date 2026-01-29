@@ -415,6 +415,20 @@ export default function Index() {
             </TouchableOpacity>
           </View>
           
+          {currentEV !== null && (
+            <View style={styles.evDisplay}>
+              <Text style={styles.evLabel}>Measured EV:</Text>
+              <Text style={styles.evValue}>
+                {currentEV.toFixed(1)} 
+                {meterCalibration !== 0 && (
+                  <Text style={styles.evCalibration}>
+                    {' '}({meterCalibration > 0 ? '+' : ''}{meterCalibration.toFixed(1)})
+                  </Text>
+                )}
+              </Text>
+            </View>
+          )}
+          
           <View style={styles.exposureMain}>
             <Text style={styles.exposureLabel}>Suggested Exposure:</Text>
             <Text style={styles.exposureValue}>{exposureData.suggestedExposure}</Text>
