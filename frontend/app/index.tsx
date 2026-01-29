@@ -257,34 +257,35 @@ export default function Index() {
       
       {/* Camera View */}
       <View style={styles.cameraContainer}>
-        <CameraView
+        <Camera
           style={styles.camera}
-          facing="back"
-        />
-        
-        {/* Viewfinder Overlay - Positioned absolutely over camera */}
-        <View style={styles.overlayContainer}>
-          {/* Top grey area */}
-          <View style={styles.greyArea} />
-          
-          {/* Middle section with viewfinder */}
-          <View style={styles.middleSection}>
+          type={Camera.Constants.Type.back}
+          ref={cameraRef}
+        >
+          {/* Viewfinder Overlay - Positioned absolutely over camera */}
+          <View style={styles.overlayContainer}>
+            {/* Top grey area */}
             <View style={styles.greyArea} />
-            <View
-              style={[
-                styles.viewfinder,
-                {
-                  width: viewfinderSize.width,
-                  height: viewfinderSize.height,
-                },
-              ]}
-            />
+            
+            {/* Middle section with viewfinder */}
+            <View style={styles.middleSection}>
+              <View style={styles.greyArea} />
+              <View
+                style={[
+                  styles.viewfinder,
+                  {
+                    width: viewfinderSize.width,
+                    height: viewfinderSize.height,
+                  },
+                ]}
+              />
+              <View style={styles.greyArea} />
+            </View>
+            
+            {/* Bottom grey area */}
             <View style={styles.greyArea} />
           </View>
-          
-          {/* Bottom grey area */}
-          <View style={styles.greyArea} />
-        </View>
+        </Camera>
       </View>
 
       {/* Top Info Bar */}
