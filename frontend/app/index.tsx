@@ -552,19 +552,6 @@ export default function Index() {
                 </View>
               </View>
 
-              {/* Red Filter */}
-              <TouchableOpacity
-                style={styles.checkboxRow}
-                onPress={() => setUseRedFilter(!useRedFilter)}
-              >
-                <View style={styles.checkbox}>
-                  {useRedFilter && (
-                    <Ionicons name="checkmark" size={18} color={AMBER} />
-                  )}
-                </View>
-                <Text style={styles.checkboxLabel}>Red Filter (+3 stops)</Text>
-              </TouchableOpacity>
-
               {/* Light meter calibration removed */}
             </ScrollView>
           </View>
