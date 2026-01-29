@@ -261,10 +261,9 @@ export default function Index() {
     <View style={styles.container}>
       <StatusBar style="light" />
       
-      {isLandscape ? (
-        // Landscape Layout: Viewfinder Left, Info Right
-        <View style={styles.landscapeContainer}>
-          {/* Camera View on Left */}
+      {/* Camera View - Always mounted, outside conditional rendering */}
+      <View style={isLandscape ? styles.landscapeContainer : styles.container}>
+        {isLandscape && (
           <View style={styles.landscapeCameraSection}>
             <CameraView
               style={styles.camera}
@@ -291,9 +290,39 @@ export default function Index() {
               <View style={styles.greyArea} />
             </View>
           </View>
+        )}
 
-          {/* Info Panel on Right */}
-          <View style={styles.landscapeInfoPanel}>
+        {!isLandscape && (
+          <View style={styles.cameraContainer}>
+            <CameraView
+              style={styles.camera}
+              facing="back"
+              ref={cameraRef}
+            />
+            
+            {/* Viewfinder Overlay */}
+            <View style={styles.overlayContainer}>
+              <View style={styles.greyArea} />
+              <View style={styles.middleSection}>
+                <View style={styles.greyArea} />
+                <View
+                  style={[
+                    styles.viewfinder,
+                    {
+                      width: viewfinderSize.width,
+                      height: viewfinderSize.height,
+                    },
+                  ]}
+                />
+                <View style={styles.greyArea} />
+              </View>
+              <View style={styles.greyArea} />
+            </View>
+          </View>
+        )}
+
+        {/* Landscape Info Panel */}
+        {isLandscape && (
             <ScrollView 
               style={styles.landscapeInfoScroll}
               contentContainerStyle={styles.landscapeInfoContent}
