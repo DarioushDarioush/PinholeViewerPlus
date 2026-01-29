@@ -54,10 +54,18 @@ export default function Index() {
   const [showProfiles, setShowProfiles] = useState(false);
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [profileName, setProfileName] = useState('');
+  const [dimensions, setDimensions] = useState(Dimensions.get('window'));
   const cameraRef = useRef<any>(null);
 
   useEffect(() => {
     loadProfiles();
+    
+    // Listen for orientation changes
+    const subscription = Dimensions.addEventListener('change', ({ window }) => {
+      setDimensions(window);
+    });
+
+    return () => subscription?.remove();
   }, []);
 
   const loadProfiles = async () => {
