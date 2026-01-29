@@ -632,13 +632,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.95)',
     borderLeftWidth: 2,
     borderLeftColor: AMBER,
+    marginRight: 16,
+    marginTop: 16,
+    marginBottom: 16,
+    borderRadius: 8,
   },
   landscapeInfoScroll: {
     flex: 1,
   },
   landscapeInfoContent: {
-    padding: 20,
-    paddingTop: 40,
+    padding: 24,
+    paddingTop: 32,
   },
   landscapeInfoSection: {
     marginBottom: 30,
