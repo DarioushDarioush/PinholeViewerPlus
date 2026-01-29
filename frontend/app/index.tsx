@@ -180,7 +180,7 @@ export default function Index() {
     };
   };
 
-  // Light metering using camera - takes a photo and analyzes brightness
+  // Light metering using camera - takes a photo and analyzes brightness via backend
   const performLightMeter = async () => {
     if (!cameraRef.current) {
       Alert.alert('Error', 'Camera not ready');
@@ -192,7 +192,7 @@ export default function Index() {
     try {
       // Take a photo to analyze the scene
       const photo = await cameraRef.current.takePictureAsync({
-        quality: 0.1, // Low quality is fine for metering
+        quality: 0.3, // Medium quality for accurate analysis
         skipProcessing: true,
       });
       
@@ -202,42 +202,42 @@ export default function Index() {
         return;
       }
       
-      // Resize to small size for faster analysis and get pixel data
-      const manipResult = await ImageManipulator.manipulateAsync(
-        photo.uri,
-        [{ resize: { width: 100, height: 100 } }],
-        { format: ImageManipulator.SaveFormat.JPEG }
-      );
+      // Create form data to upload the image
+      const formData = new FormData();
       
-      // Estimate brightness from file size and typical compression
-      // Brighter images compress better (larger file for same content)
-      // This is a heuristic approach that works reasonably well
-      const fileSize = manipResult.uri.length;
+      // For React Native, we need to format the file properly
+      const imageFile: any = {
+        uri: photo.uri,
+        type: 'image/jpeg',
+        name: 'meter.jpg',
+      };
       
-      // Map file size to brightness estimate
-      // Typical ranges observed:
-      // Very dark: 8000-12000 chars
-      // Dark: 12000-18000 chars  
-      // Medium: 18000-28000 chars
-      // Bright: 28000-40000+ chars
+      formData.append('file', imageFile);
       
-      let estimatedBrightness = 128; // Default mid-tone
+      // Get backend URL from env
+      const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || '';
       
-      if (fileSize < 12000) {
-        estimatedBrightness = 30 + (fileSize - 8000) / 4000 * 30;
-      } else if (fileSize < 18000) {
-        estimatedBrightness = 60 + (fileSize - 12000) / 6000 * 40;
-      } else if (fileSize < 28000) {
-        estimatedBrightness = 100 + (fileSize - 18000) / 10000 * 50;
-      } else {
-        estimatedBrightness = 150 + Math.min((fileSize - 28000) / 12000 * 80, 80);
+      // Send to backend for analysis
+      const response = await fetch(`${backendUrl}/api/analyze-brightness`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to analyze image brightness');
       }
       
-      // Clamp to valid range
-      estimatedBrightness = Math.max(20, Math.min(240, estimatedBrightness));
+      const data = await response.json();
       
-      // Convert brightness to EV
-      const baseEV = brightnessToEV(estimatedBrightness);
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      
+      // Get the EV from backend analysis
+      const baseEV = data.ev;
       
       // Apply user calibration
       const calibratedEV = baseEV + meterCalibration;
@@ -249,7 +249,7 @@ export default function Index() {
       
     } catch (error) {
       console.error('Light metering error:', error);
-      Alert.alert('Error', 'Failed to read light from camera');
+      Alert.alert('Error', 'Failed to read light from camera. Please try again.');
       setIsMetering(false);
     }
   };
