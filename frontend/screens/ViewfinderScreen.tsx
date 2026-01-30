@@ -126,8 +126,32 @@ export default function ViewfinderScreen({ settings, updateSettings }: Props) {
 
   if (!permission.granted) {
     return (
-      <View style={styles.permissionContainer}>
-        <Text style={styles.permissionText}>Camera permission required</Text>
+      <View style={styles.container}>
+        {/* Info Header Bar */}
+        <View style={styles.headerBar}>
+          <View style={styles.headerItem}>
+            <Text style={styles.headerLabel}>Format</Text>
+            <Text style={styles.headerValue}>{settings.filmFormat.name}</Text>
+          </View>
+          <View style={styles.headerItem}>
+            <Text style={styles.headerLabel}>F-Stop</Text>
+            <Text style={styles.headerValue}>f/{calculateFStop()}</Text>
+          </View>
+          <View style={styles.headerItem}>
+            <Text style={styles.headerLabel}>ISO</Text>
+            <Text style={styles.headerValue}>{settings.iso}</Text>
+          </View>
+        </View>
+        <View style={styles.permissionContainer}>
+          <Text style={styles.permissionText}>Camera permission required</Text>
+          {calculatedExposure && (
+            <View style={styles.permissionExposure}>
+              <Text style={styles.permissionExposureLabel}>Last Calculated Exposure</Text>
+              <Text style={styles.permissionExposureValue}>{calculatedExposure}</Text>
+              <Text style={styles.permissionExposureCondition}>{settings.selectedCondition}</Text>
+            </View>
+          )}
+        </View>
       </View>
     );
   }
