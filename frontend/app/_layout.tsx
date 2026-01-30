@@ -327,16 +327,17 @@ const styles = StyleSheet.create({
   },
   overlayMiddleRow: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: '100%',
   },
   overlaySide: {
     flex: 1,
+    height: '100%',
     backgroundColor: 'rgba(0, 0, 0, 0.65)',
   },
   viewfinderCutout: {
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'transparent',
   },
   viewfinderBorder: {
     position: 'absolute',
