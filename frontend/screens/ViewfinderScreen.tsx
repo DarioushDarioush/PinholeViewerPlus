@@ -37,6 +37,7 @@ export default function ViewfinderScreen({ settings, updateSettings }: Props) {
   useEffect(() => {
     const subscription = Dimensions.addEventListener('change', ({ window }) => {
       setDimensions(window);
+      // Force camera remount on orientation change
       setCameraKey(prev => prev + 1);
     });
     return () => subscription?.remove();
@@ -56,37 +57,28 @@ export default function ViewfinderScreen({ settings, updateSettings }: Props) {
   };
 
   const calculateViewfinderSize = () => {
-    const screenWidth = dimensions.width;
-    const screenHeight = dimensions.height;
     const effectiveDims = getEffectiveDimensions();
     const filmAspectRatio = effectiveDims.width / effectiveDims.height;
     
-    let viewfinderWidth: number;
-    let viewfinderHeight: number;
+    let availableWidth: number;
+    let availableHeight: number;
     
     if (isLandscape) {
-      // Viewfinder on LEFT - use ~60% of screen width
-      const availableWidth = screenWidth * 0.58;
-      const availableHeight = screenHeight - 60;
-      
-      viewfinderHeight = availableHeight * 0.88;
-      viewfinderWidth = viewfinderHeight * filmAspectRatio;
-      
-      if (viewfinderWidth > availableWidth * 0.92) {
-        viewfinderWidth = availableWidth * 0.92;
-        viewfinderHeight = viewfinderWidth / filmAspectRatio;
-      }
+      // In landscape, camera takes ~62% of screen width
+      availableWidth = dimensions.width * 0.60;
+      availableHeight = dimensions.height - 60;
     } else {
-      const availableWidth = screenWidth - 32;
-      const availableHeight = screenHeight * 0.50;
-      
-      viewfinderWidth = availableWidth * 0.95;
-      viewfinderHeight = viewfinderWidth / filmAspectRatio;
-      
-      if (viewfinderHeight > availableHeight) {
-        viewfinderHeight = availableHeight;
-        viewfinderWidth = viewfinderHeight * filmAspectRatio;
-      }
+      // In portrait, camera is the main area
+      availableWidth = dimensions.width - 32;
+      availableHeight = dimensions.height * 0.50;
+    }
+    
+    let viewfinderWidth = availableWidth * 0.85;
+    let viewfinderHeight = viewfinderWidth / filmAspectRatio;
+    
+    if (viewfinderHeight > availableHeight * 0.85) {
+      viewfinderHeight = availableHeight * 0.85;
+      viewfinderWidth = viewfinderHeight * filmAspectRatio;
     }
     
     return { width: viewfinderWidth, height: viewfinderHeight };
@@ -143,23 +135,29 @@ export default function ViewfinderScreen({ settings, updateSettings }: Props) {
   const filmOrientationLabel = settings.filmOrientation === 'portrait' ? 'Portrait' : 'Landscape';
   const viewfinderSize = calculateViewfinderSize();
 
-  // ========== Camera with Viewfinder Overlay ==========
+  // ========== Camera with Centered Viewfinder Frame ==========
   const renderCameraWithOverlay = () => (
-    <View style={styles.cameraWrapper}>
+    <View style={styles.cameraContainer}>
       <CameraView
         key={cameraKey}
-        style={StyleSheet.absoluteFill}
+        style={styles.camera}
         facing="back"
         ref={cameraRef}
       />
-      <View style={StyleSheet.absoluteFill}>
-        <View style={styles.overlayTop} />
-        <View style={styles.overlayMiddle}>
-          <View style={styles.overlaySide} />
-          <View style={[styles.viewfinderFrame, { width: viewfinderSize.width, height: viewfinderSize.height }]} />
-          <View style={styles.overlaySide} />
+      {/* Dark overlay with transparent center for viewfinder */}
+      <View style={styles.overlayContainer} pointerEvents="none">
+        {/* Top dark area */}
+        <View style={styles.overlayDark} />
+        {/* Middle row with viewfinder cutout */}
+        <View style={styles.overlayMiddleRow}>
+          <View style={styles.overlayDark} />
+          <View style={[styles.viewfinderCutout, { width: viewfinderSize.width, height: viewfinderSize.height }]}>
+            <View style={styles.viewfinderBorder} />
+          </View>
+          <View style={styles.overlayDark} />
         </View>
-        <View style={styles.overlayBottom} />
+        {/* Bottom dark area */}
+        <View style={styles.overlayDark} />
       </View>
     </View>
   );
@@ -353,6 +351,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: DARK_BG,
   },
+  
+  // Header Bar (Portrait)
   headerBar: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -389,31 +389,42 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  cameraWrapper: {
+  
+  // Camera Container
+  cameraContainer: {
     flex: 1,
-    position: 'relative',
     backgroundColor: '#000',
   },
-  overlayTop: {
+  camera: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
-  overlayMiddle: {
+  overlayContainer: {
+    ...StyleSheet.absoluteFillObject,
+    flexDirection: 'column',
+  },
+  overlayDark: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.65)',
+  },
+  overlayMiddleRow: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  overlaySide: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  viewfinderCutout: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  overlayBottom: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-  },
-  viewfinderFrame: {
+  viewfinderBorder: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     borderWidth: 3,
     borderColor: AMBER,
   },
+  
+  // Permission
   permissionContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -457,6 +468,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
   },
+  
+  // Portrait Exposure Bar
   portraitExposureBar: {
     backgroundColor: AMBER,
     paddingVertical: 14,
@@ -481,6 +494,8 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     opacity: 0.85,
   },
+  
+  // Portrait Bracket Bar
   portraitBracketBar: {
     backgroundColor: CHARCOAL,
     paddingVertical: 12,
@@ -498,7 +513,7 @@ const styles = StyleSheet.create({
     height: 40,
   },
 
-  // LANDSCAPE: Viewfinder LEFT, Info RIGHT
+  // LANDSCAPE Layout: Viewfinder LEFT, Info RIGHT
   landscapeContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -514,6 +529,8 @@ const styles = StyleSheet.create({
     borderLeftWidth: 2,
     borderLeftColor: AMBER,
   },
+  
+  // Info Panel (Landscape Right)
   infoPanelScroll: {
     flex: 1,
   },
@@ -561,6 +578,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6,
   },
+  
+  // Exposure Section (Landscape)
   exposureSection: {
     marginTop: 8,
   },
@@ -589,6 +608,8 @@ const styles = StyleSheet.create({
     marginTop: 2,
     opacity: 0.8,
   },
+  
+  // Bracket Section (Landscape)
   bracketSection: {
     marginTop: 8,
   },
