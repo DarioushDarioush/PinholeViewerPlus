@@ -8,7 +8,6 @@ import {
   Platform,
   Dimensions,
 } from 'react-native';
-import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons';
 import { AppSettings, LIGHTING_CONDITIONS } from '../types';
 
@@ -27,16 +26,12 @@ interface Props {
 export default function ExposureSettingsScreen({ settings, updateSettings }: Props) {
   const scrollRef = useRef<ScrollView>(null);
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
-  const [permission, requestPermission] = useCameraPermissions();
-  const [cameraKey, setCameraKey] = useState(0);
-  const cameraRef = useRef<any>(null);
 
   const isLandscape = dimensions.width > dimensions.height;
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener('change', ({ window }) => {
       setDimensions(window);
-      setCameraKey(prev => prev + 1);
     });
     return () => subscription?.remove();
   }, []);
