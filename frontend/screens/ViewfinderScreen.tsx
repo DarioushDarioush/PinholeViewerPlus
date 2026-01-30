@@ -7,7 +7,7 @@ import {
   Platform,
 } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
-import Slider from 'react-native-slider';
+import Slider from '@react-native-community/slider';
 import { AppSettings, LIGHTING_CONDITIONS } from '../app/index';
 
 const AMBER = '#F59E0B';
