@@ -112,7 +112,7 @@ export default function ExposureSettingsScreen({ settings, updateSettings }: Pro
           <Text style={[styles.exposureResultCondition, isLandscape && styles.exposureResultConditionLandscape]}>
             {settings.selectedCondition}
             {settings.bracketStops !== 0 && ` (${settings.bracketStops > 0 ? '+' : ''}${settings.bracketStops})`}
-            {settings.useRedFilter && ' • Red Filter'}
+            {(settings.selectedFilter && settings.selectedFilter !== 'None') && ` • ${settings.selectedFilter} Filter`}
           </Text>
         </View>
       )}
