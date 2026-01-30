@@ -273,6 +273,15 @@ export default function ViewfinderScreen({ settings, updateSettings }: Props) {
             maximumTrackTintColor={TEXT_MUTED}
             thumbTintColor={AMBER}
           />
+          <View style={styles.portraitBracketMarks}>
+            <Text style={[styles.portraitBracketMark, settings.bracketStops === -3 && styles.portraitBracketMarkActive]}>-3</Text>
+            <Text style={[styles.portraitBracketMark, settings.bracketStops === -2 && styles.portraitBracketMarkActive]}>-2</Text>
+            <Text style={[styles.portraitBracketMark, settings.bracketStops === -1 && styles.portraitBracketMarkActive]}>-1</Text>
+            <Text style={[styles.portraitBracketMark, styles.portraitBracketMarkZero, settings.bracketStops === 0 && styles.portraitBracketMarkActive]}>0</Text>
+            <Text style={[styles.portraitBracketMark, settings.bracketStops === 1 && styles.portraitBracketMarkActive]}>+1</Text>
+            <Text style={[styles.portraitBracketMark, settings.bracketStops === 2 && styles.portraitBracketMarkActive]}>+2</Text>
+            <Text style={[styles.portraitBracketMark, settings.bracketStops === 3 && styles.portraitBracketMarkActive]}>+3</Text>
+          </View>
         </View>
       )}
     </View>
