@@ -52,34 +52,6 @@ export default function ViewfinderScreen({ settings, updateSettings }: Props) {
     return { width, height };
   };
 
-  const calculateViewfinderSize = () => {
-    const effectiveDims = getEffectiveDimensions();
-    const filmAspectRatio = effectiveDims.width / effectiveDims.height;
-    
-    let availableWidth: number;
-    let availableHeight: number;
-    
-    if (isLandscape) {
-      // In landscape, camera takes ~62% of screen width
-      availableWidth = dimensions.width * 0.60;
-      availableHeight = dimensions.height - 60;
-    } else {
-      // In portrait, camera is the main area
-      availableWidth = dimensions.width - 32;
-      availableHeight = dimensions.height * 0.50;
-    }
-    
-    let viewfinderWidth = availableWidth * 0.85;
-    let viewfinderHeight = viewfinderWidth / filmAspectRatio;
-    
-    if (viewfinderHeight > availableHeight * 0.85) {
-      viewfinderHeight = availableHeight * 0.85;
-      viewfinderWidth = viewfinderHeight * filmAspectRatio;
-    }
-    
-    return { width: viewfinderWidth, height: viewfinderHeight };
-  };
-
   const calculateExposure = () => {
     if (!settings.selectedCondition) return null;
     
