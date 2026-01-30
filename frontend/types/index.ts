@@ -11,6 +11,16 @@ export const FILM_FORMATS = [
 
 export const ISO_VALUES = [25, 50, 100, 200, 400, 800, 1600, 3200];
 
+// Filter options with exposure compensation (in stops)
+export const FILTER_OPTIONS = [
+  { name: 'None', stops: 0, color: '#666666' },
+  { name: 'Yellow', stops: 1, color: '#FCD34D' },
+  { name: 'Orange', stops: 2, color: '#F97316' },
+  { name: 'Red', stops: 3, color: '#EF4444' },
+];
+
+export type FilterType = 'None' | 'Yellow' | 'Orange' | 'Red';
+
 // Lighting conditions for Sunny 16 rule
 export const LIGHTING_CONDITIONS = [
   { name: 'Snow/Sandy', fStop: 22, icon: '☀️❄️', description: 'Very bright, snow or beach' },
@@ -30,7 +40,8 @@ export interface AppSettings {
   filmOrientation: FilmOrientation;
   iso: number;
   selectedCondition: string | null;
-  useRedFilter: boolean;
+  useRedFilter: boolean;  // Kept for backwards compatibility
+  selectedFilter: FilterType;  // New filter selection
   useReciprocityFailure: boolean;
   bracketStops: number;
 }
