@@ -267,21 +267,21 @@ export default function Layout() {
 }
 
 const styles = StyleSheet.create({
-  // Portrait mode styles
-  portraitContainer: {
+  // Portrait Viewfinder mode - camera fills background
+  portraitViewfinderContainer: {
     flex: 1,
-    backgroundColor: DARK_BG,
+    backgroundColor: '#000',
   },
-  portraitCameraLayer: {
-    ...StyleSheet.absoluteFillObject,
-    zIndex: 0,
-  },
-  portraitTabsLayer: {
+  portraitCameraFill: {
     flex: 1,
-    zIndex: 1,
+    backgroundColor: '#000',
   },
-  portraitTabsLayerOverCamera: {
-    backgroundColor: 'transparent',
+  portraitTabBarContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 85,
   },
   
   // Landscape mode styles
