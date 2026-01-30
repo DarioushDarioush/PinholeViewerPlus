@@ -21,10 +21,13 @@ export const LIGHTING_CONDITIONS = [
   { name: 'Open Shade/Sunset', fStop: 4, icon: '🌅', description: 'Shade or sunset/sunrise' },
 ];
 
+export type FilmOrientation = 'landscape' | 'portrait';
+
 export interface AppSettings {
   focalLength: number;
   pinholeSize: number;
   filmFormat: typeof FILM_FORMATS[0];
+  filmOrientation: FilmOrientation;
   iso: number;
   selectedCondition: string | null;
   useRedFilter: boolean;
