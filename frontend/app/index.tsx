@@ -28,7 +28,14 @@ export default function Index() {
     try {
       const stored = await AsyncStorage.getItem('app_settings');
       if (stored) {
-        setSettings({ ...settings, ...JSON.parse(stored) });
+        const parsedSettings = JSON.parse(stored);
+        setSettings(prev => ({
+          ...prev,
+          ...parsedSettings,
+          // Ensure filmFormat is properly restored
+          filmFormat: parsedSettings.filmFormat || prev.filmFormat,
+          filmOrientation: parsedSettings.filmOrientation || 'landscape',
+        }));
       }
     } catch (error) {
       console.error('Error loading settings:', error);
