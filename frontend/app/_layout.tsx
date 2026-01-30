@@ -235,19 +235,19 @@ export default function Layout() {
     );
   }
 
-  // PORTRAIT MODE for VIEWFINDER TAB: Camera managed here, not in ViewfinderScreen
+  // PORTRAIT MODE for VIEWFINDER TAB: Camera as background, tabs overlay on top
   // This ensures only ONE camera instance exists across the entire app
   if (isViewfinderTab) {
     return (
       <CameraContext.Provider value={cameraContextValue}>
         <StatusBar style="light" />
         <View style={styles.portraitViewfinderContainer}>
-          {/* Camera fills the main area */}
-          <View style={styles.portraitCameraArea}>
+          {/* Camera as absolute background layer */}
+          <View style={styles.portraitCameraBackground}>
             {renderCamera()}
           </View>
-          {/* Tab bar at bottom */}
-          <View style={styles.portraitTabBar}>
+          {/* Tabs overlay on top - ViewfinderScreen has transparent background */}
+          <View style={styles.portraitTabsOverlay}>
             {tabsComponent}
           </View>
         </View>
