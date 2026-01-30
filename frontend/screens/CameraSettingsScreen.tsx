@@ -11,7 +11,6 @@ import {
   Dimensions,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons';
 import { AppSettings, FILM_FORMATS, ISO_VALUES, FilmOrientation } from '../types';
 
