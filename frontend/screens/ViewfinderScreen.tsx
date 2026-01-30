@@ -234,6 +234,22 @@ export default function ViewfinderScreen({ settings, updateSettings }: Props) {
             {settings.selectedCondition}
             {settings.bracketStops !== 0 && ` (${settings.bracketStops > 0 ? '+' : ''}${settings.bracketStops})`}
           </Text>
+          {/* Show active modifiers */}
+          {((settings.selectedFilter && settings.selectedFilter !== 'None') || 
+            settings.useReciprocityFailure) && (
+            <View style={styles.portraitModifiersRow}>
+              {settings.selectedFilter && settings.selectedFilter !== 'None' && (
+                <View style={styles.portraitModifierBadge}>
+                  <Text style={styles.portraitModifierText}>{settings.selectedFilter}</Text>
+                </View>
+              )}
+              {settings.useReciprocityFailure && (
+                <View style={[styles.portraitModifierBadge, styles.reciprocityBadge]}>
+                  <Text style={styles.portraitModifierText}>Reciprocity</Text>
+                </View>
+              )}
+            </View>
+          )}
         </View>
       )}
 
