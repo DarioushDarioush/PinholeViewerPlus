@@ -257,9 +257,13 @@ export default function ViewfinderScreen({ settings, updateSettings }: Props) {
       {/* Spacer - transparent area where camera shows through */}
       <View style={styles.cameraAreaSpacer} />
 
-      {/* Exposure info at bottom */}
+      {/* Exposure info at bottom - long press to start timer */}
       {calculatedExposure && (
-        <View style={styles.portraitExposureBar}>
+        <Pressable 
+          style={styles.portraitExposureBar}
+          onLongPress={handleExposureLongPress}
+          delayLongPress={500}
+        >
           <Text style={styles.portraitExposureLabel}>EXPOSURE</Text>
           <Text style={styles.portraitExposureValue}>{calculatedExposure}</Text>
           <Text style={styles.portraitExposureCondition}>
@@ -282,7 +286,8 @@ export default function ViewfinderScreen({ settings, updateSettings }: Props) {
               )}
             </View>
           )}
-        </View>
+          <Text style={styles.longPressHintPortrait}>Long press to start timer</Text>
+        </Pressable>
       )}
 
       {calculatedExposure && (
