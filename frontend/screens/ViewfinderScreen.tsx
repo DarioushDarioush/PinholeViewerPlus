@@ -285,10 +285,6 @@ export default function ViewfinderScreen({ settings, updateSettings }: Props) {
     </View>
   );
 
-  if (!permission) {
-    return <View style={styles.container} />;
-  }
-
   return isLandscape ? renderLandscapeLayout() : renderPortraitLayout();
 }
 
