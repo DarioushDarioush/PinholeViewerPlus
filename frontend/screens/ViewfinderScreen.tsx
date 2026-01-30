@@ -541,14 +541,42 @@ const styles = StyleSheet.create({
   bracketMarks: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 8,
+    paddingHorizontal: 4,
+    marginTop: 4,
   },
   bracketMark: {
     color: TEXT_MUTED,
-    fontSize: 11,
+    fontSize: 10,
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+    textAlign: 'center',
+    minWidth: 20,
+  },
+  bracketMarkZero: {
+    fontWeight: '600',
   },
   bracketMarkActive: {
+    color: AMBER,
+    fontWeight: '700',
+  },
+  
+  // Portrait Bracket Marks
+  portraitBracketMarks: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    marginTop: 4,
+  },
+  portraitBracketMark: {
+    color: TEXT_MUTED,
+    fontSize: 12,
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+    textAlign: 'center',
+    minWidth: 24,
+  },
+  portraitBracketMarkZero: {
+    fontWeight: '600',
+  },
+  portraitBracketMarkActive: {
     color: AMBER,
     fontWeight: '700',
   },
