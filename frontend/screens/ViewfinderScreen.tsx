@@ -325,18 +325,10 @@ export default function ViewfinderScreen({ settings, updateSettings }: Props) {
     </View>
   );
 
-  // ========== LANDSCAPE LAYOUT: Viewfinder LEFT, Info Panel RIGHT ==========
+  // ========== LANDSCAPE LAYOUT: Info Panel only (camera is in parent _layout.tsx) ==========
   const renderLandscapeLayout = () => (
-    <View style={styles.landscapeContainer}>
-      {/* LEFT: Camera/Viewfinder */}
-      <View style={styles.landscapeLeftPanel}>
-        {permission?.granted ? renderCameraWithOverlay() : renderPermissionRequest()}
-      </View>
-
-      {/* RIGHT: Info Panel */}
-      <View style={styles.landscapeRightPanel}>
-        {renderInfoPanelContent()}
-      </View>
+    <View style={styles.landscapeInfoPanelOnly}>
+      {renderInfoPanelContent()}
     </View>
   );
 
