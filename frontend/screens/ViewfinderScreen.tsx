@@ -92,9 +92,6 @@ export default function ViewfinderScreen({ settings, updateSettings }: Props) {
       startCountdown(exposureSeconds);
     }
   };
-    
-    return formatExposure(exposureTime);
-  };
 
   const formatExposure = (seconds: number) => {
     if (seconds < 1) {
