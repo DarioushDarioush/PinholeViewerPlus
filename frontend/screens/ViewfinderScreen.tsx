@@ -466,6 +466,28 @@ const styles = StyleSheet.create({
     marginTop: 2,
     opacity: 0.8,
   },
+  exposureModifiers: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: 6,
+    marginTop: 6,
+  },
+  exposureModifier: {
+    color: DARK_BG,
+    fontSize: 10,
+    fontWeight: '600',
+    backgroundColor: 'rgba(0,0,0,0.15)',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 4,
+  },
+  filterModifier: {
+    backgroundColor: 'rgba(0,0,0,0.2)',
+  },
+  reciprocityModifier: {
+    backgroundColor: 'rgba(0,0,0,0.2)',
+  },
   
   // Bracket Section (Landscape)
   bracketSection: {
