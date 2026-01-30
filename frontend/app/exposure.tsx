@@ -28,7 +28,13 @@ export default function Exposure() {
     try {
       const stored = await AsyncStorage.getItem('app_settings');
       if (stored) {
-        setSettings({ ...settings, ...JSON.parse(stored) });
+        const parsedSettings = JSON.parse(stored);
+        setSettings(prev => ({
+          ...prev,
+          ...parsedSettings,
+          filmFormat: parsedSettings.filmFormat || prev.filmFormat,
+          filmOrientation: parsedSettings.filmOrientation || 'landscape',
+        }));
       }
     } catch (error) {
       console.error('Error loading settings:', error);
