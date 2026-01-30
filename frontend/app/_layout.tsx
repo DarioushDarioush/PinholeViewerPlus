@@ -48,11 +48,74 @@ export default function Layout() {
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
   const [filmFormat, setFilmFormat] = useState(FILM_FORMATS[2]);
   const [filmOrientation, setFilmOrientation] = useState<'landscape' | 'portrait'>('landscape');
+  const [countdownSeconds, setCountdownSeconds] = useState<number | null>(null);
   const cameraRef = useRef<any>(null);
+  const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
 
   const isLandscape = dimensions.width > dimensions.height;
   const isViewfinderTab = pathname === '/' || pathname === '/index';
+
+  // Play beep sound
+  const playBeep = async (isEnd: boolean = false) => {
+    try {
+      // Create a simple beep using Audio
+      const { sound } = await Audio.Sound.createAsync(
+        // Use a generated tone - frequency beep
+        { uri: isEnd 
+          ? 'https://www.soundjay.com/buttons/beep-02.mp3'  // End beep (different tone)
+          : 'https://www.soundjay.com/buttons/beep-01a.mp3' // Start beep
+        },
+        { shouldPlay: true, volume: 1.0 }
+      );
+      // Unload after playing
+      setTimeout(() => {
+        sound.unloadAsync();
+      }, 1000);
+    } catch (error) {
+      console.log('Audio playback error:', error);
+    }
+  };
+
+  // Start countdown timer
+  const startCountdown = async (seconds: number) => {
+    // Clear any existing countdown
+    if (countdownIntervalRef.current) {
+      clearInterval(countdownIntervalRef.current);
+    }
+    
+    // Play start beep
+    await playBeep(false);
+    
+    // Set initial countdown value
+    setCountdownSeconds(Math.ceil(seconds));
+    
+    // Start interval
+    countdownIntervalRef.current = setInterval(() => {
+      setCountdownSeconds(prev => {
+        if (prev === null || prev <= 1) {
+          // Countdown finished
+          if (countdownIntervalRef.current) {
+            clearInterval(countdownIntervalRef.current);
+            countdownIntervalRef.current = null;
+          }
+          // Play end beep
+          playBeep(true);
+          return null;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (countdownIntervalRef.current) {
+        clearInterval(countdownIntervalRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener('change', ({ window }) => {
