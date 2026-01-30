@@ -184,7 +184,11 @@ export default function ViewfinderScreen({ settings, updateSettings }: Props) {
           />
           <View style={styles.bracketMarks}>
             <Text style={[styles.bracketMark, settings.bracketStops === -3 && styles.bracketMarkActive]}>-3</Text>
-            <Text style={[styles.bracketMark, settings.bracketStops === 0 && styles.bracketMarkActive]}>0</Text>
+            <Text style={[styles.bracketMark, settings.bracketStops === -2 && styles.bracketMarkActive]}>-2</Text>
+            <Text style={[styles.bracketMark, settings.bracketStops === -1 && styles.bracketMarkActive]}>-1</Text>
+            <Text style={[styles.bracketMark, styles.bracketMarkZero, settings.bracketStops === 0 && styles.bracketMarkActive]}>0</Text>
+            <Text style={[styles.bracketMark, settings.bracketStops === 1 && styles.bracketMarkActive]}>+1</Text>
+            <Text style={[styles.bracketMark, settings.bracketStops === 2 && styles.bracketMarkActive]}>+2</Text>
             <Text style={[styles.bracketMark, settings.bracketStops === 3 && styles.bracketMarkActive]}>+3</Text>
           </View>
         </View>
