@@ -31,6 +31,9 @@ export default function Exposure() {
 
   const loadSettings = async () => {
     try {
+      // Ensure we're in browser environment
+      if (typeof window === 'undefined') return;
+      
       const stored = await AsyncStorage.getItem('app_settings');
       if (stored) {
         const parsedSettings = JSON.parse(stored);
