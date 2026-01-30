@@ -98,19 +98,26 @@ export default function Layout() {
     
     if (forLandscape) {
       // In landscape layout, camera takes ~62% of screen width
+      // Use 90% of available space with minimal padding
       availableWidth = dimensions.width * 0.60;
-      availableHeight = dimensions.height - 60;
+      availableHeight = dimensions.height - 40; // Reduced padding for tab bar
     } else {
-      // In portrait, camera is the main area
-      availableWidth = dimensions.width - 32;
-      availableHeight = dimensions.height * 0.50;
+      // In portrait, camera is the main area between header and exposure bar
+      // Use more of the available space - minimal side padding
+      availableWidth = dimensions.width - 20; // Reduced from 32 to 20
+      availableHeight = dimensions.height * 0.55; // Increased from 0.50
     }
     
-    let viewfinderWidth = availableWidth * 0.85;
+    // Fill up to 92% of available space while respecting aspect ratio
+    const fillPercentage = 0.92;
+    
+    // Calculate based on width first
+    let viewfinderWidth = availableWidth * fillPercentage;
     let viewfinderHeight = viewfinderWidth / filmAspectRatio;
     
-    if (viewfinderHeight > availableHeight * 0.85) {
-      viewfinderHeight = availableHeight * 0.85;
+    // If height exceeds available, scale down based on height
+    if (viewfinderHeight > availableHeight * fillPercentage) {
+      viewfinderHeight = availableHeight * fillPercentage;
       viewfinderWidth = viewfinderHeight * filmAspectRatio;
     }
     
