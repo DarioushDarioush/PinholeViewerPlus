@@ -27,6 +27,7 @@ interface Props {
 }
 
 export default function ViewfinderScreen({ settings, updateSettings }: Props) {
+  // Camera permissions only needed for PORTRAIT mode (landscape uses parent's camera)
   const [permission, requestPermission] = useCameraPermissions();
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
   const [cameraKey, setCameraKey] = useState(0);
@@ -37,7 +38,7 @@ export default function ViewfinderScreen({ settings, updateSettings }: Props) {
   useEffect(() => {
     const subscription = Dimensions.addEventListener('change', ({ window }) => {
       setDimensions(window);
-      // Force camera remount on orientation change
+      // Force camera remount on orientation change (only used in portrait)
       setCameraKey(prev => prev + 1);
     });
     return () => subscription?.remove();
