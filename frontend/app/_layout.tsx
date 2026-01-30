@@ -296,6 +296,8 @@ export default function Layout() {
     isLandscape,
     cameraPermission: permission,
     requestCameraPermission: requestPermission,
+    countdownSeconds,
+    startCountdown,
   };
 
   // LANDSCAPE MODE: Camera LEFT, Tabs RIGHT
