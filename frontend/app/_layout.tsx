@@ -261,6 +261,24 @@ export default function Layout() {
 }
 
 const styles = StyleSheet.create({
+  // Portrait mode styles
+  portraitContainer: {
+    flex: 1,
+    backgroundColor: DARK_BG,
+  },
+  portraitCameraLayer: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 0,
+  },
+  portraitTabsLayer: {
+    flex: 1,
+    zIndex: 1,
+  },
+  portraitTabsLayerOverCamera: {
+    backgroundColor: 'transparent',
+  },
+  
+  // Landscape mode styles
   landscapeContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -275,6 +293,8 @@ const styles = StyleSheet.create({
     borderLeftWidth: 2,
     borderLeftColor: AMBER,
   },
+  
+  // Camera styles
   cameraContainer: {
     flex: 1,
     backgroundColor: '#000',
@@ -307,6 +327,8 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: AMBER,
   },
+  
+  // Permission styles
   permissionContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -316,22 +338,38 @@ const styles = StyleSheet.create({
   },
   permissionTitle: {
     color: TEXT_PRIMARY,
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: '700',
-    marginTop: 12,
-    marginBottom: 16,
+    marginTop: 16,
+    marginBottom: 8,
     textAlign: 'center',
+  },
+  permissionTitleLandscape: {
+    fontSize: 16,
+    marginTop: 12,
+  },
+  permissionText: {
+    color: TEXT_MUTED,
+    fontSize: 14,
+    textAlign: 'center',
+    lineHeight: 22,
   },
   permissionButton: {
     backgroundColor: AMBER,
+    paddingVertical: 14,
+    paddingHorizontal: 28,
+    borderRadius: 8,
+    marginTop: 20,
+    minHeight: 48,
+  },
+  permissionButtonLandscape: {
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 8,
-    minHeight: 44,
+    marginTop: 16,
   },
   permissionButtonText: {
     color: DARK_BG,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '700',
   },
 });
