@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -43,9 +43,6 @@ export default function CameraSettingsScreen({ settings, updateSettings }: Props
   const [profileName, setProfileName] = useState('');
   const [showProfiles, setShowProfiles] = useState(false);
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
-  const [permission, requestPermission] = useCameraPermissions();
-  const [cameraKey, setCameraKey] = useState(0);
-  const cameraRef = useRef<any>(null);
 
   const isLandscape = dimensions.width > dimensions.height;
 
@@ -53,7 +50,6 @@ export default function CameraSettingsScreen({ settings, updateSettings }: Props
     loadProfiles();
     const subscription = Dimensions.addEventListener('change', ({ window }) => {
       setDimensions(window);
-      setCameraKey(prev => prev + 1);
     });
     return () => subscription?.remove();
   }, []);
