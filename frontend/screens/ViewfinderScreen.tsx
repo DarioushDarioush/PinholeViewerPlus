@@ -139,12 +139,27 @@ export default function ViewfinderScreen({ settings, updateSettings }: Props) {
           <View style={styles.exposureBox}>
             <Text style={styles.exposureValue}>{calculatedExposure}</Text>
             <Text style={styles.exposureCondition}>{settings.selectedCondition}</Text>
-            {(settings.bracketStops !== 0 || settings.useRedFilter) && (
-              <Text style={styles.exposureDetails}>
-                {settings.bracketStops !== 0 && `${settings.bracketStops > 0 ? '+' : ''}${settings.bracketStops} stops`}
-                {settings.bracketStops !== 0 && settings.useRedFilter && ' • '}
-                {settings.useRedFilter && 'Red Filter'}
-              </Text>
+            {/* Show modifiers: bracket, filter, reciprocity */}
+            {(settings.bracketStops !== 0 || 
+              (settings.selectedFilter && settings.selectedFilter !== 'None') || 
+              settings.useReciprocityFailure) && (
+              <View style={styles.exposureModifiers}>
+                {settings.bracketStops !== 0 && (
+                  <Text style={styles.exposureModifier}>
+                    {settings.bracketStops > 0 ? '+' : ''}{settings.bracketStops} stops
+                  </Text>
+                )}
+                {settings.selectedFilter && settings.selectedFilter !== 'None' && (
+                  <Text style={[styles.exposureModifier, styles.filterModifier]}>
+                    {settings.selectedFilter} Filter
+                  </Text>
+                )}
+                {settings.useReciprocityFailure && (
+                  <Text style={[styles.exposureModifier, styles.reciprocityModifier]}>
+                    Reciprocity
+                  </Text>
+                )}
+              </View>
             )}
           </View>
         </View>
