@@ -153,7 +153,8 @@ export default function Layout() {
         />
         {/* Dark overlay with transparent center for viewfinder */}
         <View style={styles.overlayContainer} pointerEvents="none">
-          <View style={styles.overlayDark} />
+          {/* Top area - smaller to push viewfinder up */}
+          <View style={[styles.overlayDark, !isLandscape && { flex: 0.8 }]} />
           <View style={styles.overlayMiddleRow}>
             <View style={styles.overlayDark} />
             <View style={[styles.viewfinderCutout, { width: viewfinderSize.width, height: viewfinderSize.height }]}>
@@ -161,7 +162,8 @@ export default function Layout() {
             </View>
             <View style={styles.overlayDark} />
           </View>
-          <View style={styles.overlayDark} />
+          {/* Bottom area - larger to create space for exposure panel */}
+          <View style={[styles.overlayDark, !isLandscape && { flex: 1.5 }]} />
         </View>
       </View>
     );
