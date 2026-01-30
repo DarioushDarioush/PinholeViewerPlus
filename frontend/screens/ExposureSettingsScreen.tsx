@@ -84,6 +84,20 @@ export default function ExposureSettingsScreen({ settings, updateSettings }: Pro
           <Text style={styles.title}>Exposure Settings</Text>
           <Text style={styles.subtitle}>Sunny 16 Rule Calculator</Text>
 
+          {/* Calculated Exposure Result Display */}
+          {calculatedExposure && (
+            <View style={styles.exposureResultBox}>
+              <Text style={styles.exposureResultLabel}>Calculated Exposure</Text>
+              <Text style={styles.exposureResultValue}>{calculatedExposure}</Text>
+              <Text style={styles.exposureResultCondition}>
+                {settings.selectedCondition}
+                {settings.bracketStops !== 0 && ` (${settings.bracketStops > 0 ? '+' : ''}${settings.bracketStops} stops)`}
+                {settings.useRedFilter && ' • Red Filter'}
+                {settings.useReciprocityFailure && ' • Reciprocity'}
+              </Text>
+            </View>
+          )}
+
           {/* Camera Info */}
           <View style={styles.infoBox}>
             <View style={styles.infoRow}>
