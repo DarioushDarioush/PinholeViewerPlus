@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
-import { AppSettings, FILM_FORMATS, ISO_VALUES } from '../app/index';
+import { AppSettings, FILM_FORMATS, ISO_VALUES } from '../types';
 import { useNavigation } from '@react-navigation/native';
 
 const AMBER = '#F59E0B';

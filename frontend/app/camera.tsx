@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CameraSettingsScreen from '../screens/CameraSettingsScreen';
-import { AppSettings, FILM_FORMATS } from './_layout';
+import { AppSettings, FILM_FORMATS } from '../types';
 
 export default function Camera() {
   const [settings, setSettings] = useState<AppSettings>({

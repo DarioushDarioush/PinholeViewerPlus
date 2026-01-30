@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ExposureSettingsScreen from '../screens/ExposureSettingsScreen';
-import { AppSettings, FILM_FORMATS } from './_layout';
+import { AppSettings, FILM_FORMATS } from '../types';
 
 export default function Exposure() {
   const [settings, setSettings] = useState<AppSettings>({

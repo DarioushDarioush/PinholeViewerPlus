@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import Slider from '@react-native-community/slider';
-import { AppSettings, LIGHTING_CONDITIONS } from '../app/index';
+import { AppSettings, LIGHTING_CONDITIONS } from '../types';
 
 const AMBER = '#F59E0B';
 const DARK_BG = '#0a0a0a';

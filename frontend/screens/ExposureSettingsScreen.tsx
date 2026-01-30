@@ -8,7 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { AppSettings, LIGHTING_CONDITIONS } from '../app/index';
+import { AppSettings, LIGHTING_CONDITIONS } from '../types';
 import { useNavigation } from '@react-navigation/native';
 
 const AMBER = '#F59E0B';
