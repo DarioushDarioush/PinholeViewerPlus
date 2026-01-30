@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import { CameraView, useCameraPermissions } from 'expo-camera';
 import Slider from '@react-native-community/slider';
 import { Ionicons } from '@expo/vector-icons';
 import { AppSettings, LIGHTING_CONDITIONS, FilmOrientation } from '../types';
@@ -26,20 +25,16 @@ interface Props {
   updateSettings: (settings: AppSettings) => void;
 }
 
+// NOTE: Camera is now managed entirely by _layout.tsx
+// This screen only renders overlay/info UI
 export default function ViewfinderScreen({ settings, updateSettings }: Props) {
-  // Camera permissions only needed for PORTRAIT mode (landscape uses parent's camera)
-  const [permission, requestPermission] = useCameraPermissions();
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
-  const [cameraKey, setCameraKey] = useState(0);
-  const cameraRef = useRef<any>(null);
 
   const isLandscape = dimensions.width > dimensions.height;
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener('change', ({ window }) => {
       setDimensions(window);
-      // Force camera remount on orientation change (only used in portrait)
-      setCameraKey(prev => prev + 1);
     });
     return () => subscription?.remove();
   }, []);
