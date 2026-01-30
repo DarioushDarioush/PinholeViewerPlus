@@ -7,10 +7,12 @@ import {
   Platform,
   TouchableOpacity,
   ScrollView,
+  Pressable,
 } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { Ionicons } from '@expo/vector-icons';
-import { AppSettings, LIGHTING_CONDITIONS, FilmOrientation } from '../types';
+import { AppSettings, LIGHTING_CONDITIONS, FILTER_OPTIONS, FilmOrientation } from '../types';
+import { useCameraContext } from '../app/_layout';
 
 // WCAG AA compliant colors
 const AMBER = '#F59E0B';
