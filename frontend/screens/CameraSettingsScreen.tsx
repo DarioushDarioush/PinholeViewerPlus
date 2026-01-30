@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -11,7 +11,6 @@ import {
   Dimensions,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons';
 import { AppSettings, FILM_FORMATS, ISO_VALUES, FilmOrientation } from '../types';
 
@@ -43,9 +42,6 @@ export default function CameraSettingsScreen({ settings, updateSettings }: Props
   const [profileName, setProfileName] = useState('');
   const [showProfiles, setShowProfiles] = useState(false);
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
-  const [permission] = useCameraPermissions();
-  const [cameraKey, setCameraKey] = useState(0);
-  const cameraRef = useRef<any>(null);
 
   const isLandscape = dimensions.width > dimensions.height;
 
@@ -53,7 +49,6 @@ export default function CameraSettingsScreen({ settings, updateSettings }: Props
     loadProfiles();
     const subscription = Dimensions.addEventListener('change', ({ window }) => {
       setDimensions(window);
-      setCameraKey(prev => prev + 1);
     });
     return () => subscription?.remove();
   }, []);
@@ -118,70 +113,6 @@ export default function CameraSettingsScreen({ settings, updateSettings }: Props
   const calculateOptimalPinhole = () => {
     const wavelength = 0.00055;
     return Math.sqrt(1.9 * wavelength * settings.focalLength).toFixed(2);
-  };
-
-  const getEffectiveDimensions = () => {
-    const { width, height } = settings.filmFormat;
-    const orientation = settings.filmOrientation || 'landscape';
-    if (orientation === 'portrait') {
-      return { width: height, height: width };
-    }
-    return { width, height };
-  };
-
-  const calculateViewfinderSize = () => {
-    const screenWidth = dimensions.width;
-    const screenHeight = dimensions.height;
-    const effectiveDims = getEffectiveDimensions();
-    const filmAspectRatio = effectiveDims.width / effectiveDims.height;
-    
-    // Landscape: viewfinder on RIGHT side
-    const availableWidth = screenWidth * 0.56;
-    const availableHeight = screenHeight - 80;
-    
-    let viewfinderHeight = availableHeight * 0.85;
-    let viewfinderWidth = viewfinderHeight * filmAspectRatio;
-    
-    if (viewfinderWidth > availableWidth * 0.9) {
-      viewfinderWidth = availableWidth * 0.9;
-      viewfinderHeight = viewfinderWidth / filmAspectRatio;
-    }
-    
-    return { width: viewfinderWidth, height: viewfinderHeight };
-  };
-
-  // ========== Camera with Viewfinder Overlay ==========
-  const renderCameraWithOverlay = () => {
-    const viewfinderSize = calculateViewfinderSize();
-    
-    return (
-      <View style={styles.cameraWrapper}>
-        {permission?.granted ? (
-          <>
-            <CameraView
-              key={cameraKey}
-              style={StyleSheet.absoluteFill}
-              facing="back"
-              ref={cameraRef}
-            />
-            <View style={StyleSheet.absoluteFill}>
-              <View style={styles.overlayTop} />
-              <View style={styles.overlayMiddle}>
-                <View style={styles.overlaySide} />
-                <View style={[styles.viewfinderFrame, { width: viewfinderSize.width, height: viewfinderSize.height }]} />
-                <View style={styles.overlaySide} />
-              </View>
-              <View style={styles.overlayBottom} />
-            </View>
-          </>
-        ) : (
-          <View style={styles.cameraPlaceholder}>
-            <Ionicons name="camera-outline" size={40} color={TEXT_MUTED} />
-            <Text style={styles.cameraPlaceholderText}>Camera Preview</Text>
-          </View>
-        )}
-      </View>
-    );
   };
 
   // ========== Settings Content ==========
@@ -358,12 +289,30 @@ export default function CameraSettingsScreen({ settings, updateSettings }: Props
     </>
   );
 
-  // ========== LANDSCAPE LAYOUT ==========
+  // ========== Branding Panel (LEFT side in landscape) ==========
+  const renderBrandingPanel = () => (
+    <View style={styles.brandingPanel}>
+      <Ionicons name="camera-outline" size={56} color={TEXT_MUTED} />
+      <Text style={styles.brandingTitle}>Pinhole</Text>
+      <Text style={styles.brandingSubtitle}>Camera Setup</Text>
+      <View style={styles.brandingInfo}>
+        <Text style={styles.brandingFStop}>f/{calculateFStop()}</Text>
+        <Text style={styles.brandingFormat}>{settings.filmFormat.name}</Text>
+      </View>
+    </View>
+  );
+
+  // ========== LANDSCAPE LAYOUT: Branding LEFT, Settings RIGHT ==========
   if (isLandscape) {
     return (
       <View style={styles.landscapeContainer}>
-        {/* LEFT: Settings Panel */}
+        {/* LEFT: Branding/Info Panel */}
         <View style={styles.landscapeLeftPanel}>
+          {renderBrandingPanel()}
+        </View>
+
+        {/* RIGHT: Settings Panel */}
+        <View style={styles.landscapeRightPanel}>
           <ScrollView 
             style={styles.scrollView}
             contentContainerStyle={styles.landscapeScrollContent}
@@ -371,11 +320,6 @@ export default function CameraSettingsScreen({ settings, updateSettings }: Props
           >
             {renderSettingsContent()}
           </ScrollView>
-        </View>
-
-        {/* RIGHT: Camera/Viewfinder */}
-        <View style={styles.landscapeRightPanel}>
-          {renderCameraWithOverlay()}
         </View>
       </View>
     );
@@ -579,26 +523,58 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
 
-  // ========== LANDSCAPE ==========
+  // ========== LANDSCAPE: Branding LEFT, Settings RIGHT ==========
   landscapeContainer: {
     flex: 1,
     flexDirection: 'row',
     backgroundColor: DARK_BG,
   },
   landscapeLeftPanel: {
-    width: '38%',
-    backgroundColor: CHARCOAL,
-    borderRightWidth: 2,
-    borderRightColor: AMBER,
+    flex: 1,
+    backgroundColor: DARK_BG,
   },
   landscapeRightPanel: {
-    flex: 1,
-    backgroundColor: '#000',
+    width: '38%',
+    backgroundColor: CHARCOAL,
+    borderLeftWidth: 2,
+    borderLeftColor: AMBER,
   },
   landscapeScrollContent: {
     padding: 16,
     paddingTop: 12,
     paddingBottom: 24,
+  },
+  brandingPanel: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  brandingTitle: {
+    color: AMBER,
+    fontSize: 28,
+    fontWeight: '700',
+    marginTop: 16,
+  },
+  brandingSubtitle: {
+    color: TEXT_MUTED,
+    fontSize: 16,
+    marginTop: 4,
+  },
+  brandingInfo: {
+    marginTop: 24,
+    alignItems: 'center',
+  },
+  brandingFStop: {
+    color: AMBER,
+    fontSize: 32,
+    fontWeight: '800',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  brandingFormat: {
+    color: TEXT_SECONDARY,
+    fontSize: 16,
+    marginTop: 4,
   },
   titleLandscape: {
     fontSize: 18,
@@ -647,43 +623,5 @@ const styles = StyleSheet.create({
   profileToggleTextLandscape: {
     fontSize: 13,
     marginLeft: 8,
-  },
-
-  // ========== CAMERA ==========
-  cameraWrapper: {
-    flex: 1,
-    position: 'relative',
-    backgroundColor: '#000',
-  },
-  overlayTop: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-  },
-  overlayMiddle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  overlaySide: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-  },
-  overlayBottom: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-  },
-  viewfinderFrame: {
-    borderWidth: 3,
-    borderColor: AMBER,
-  },
-  cameraPlaceholder: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: DARK_BG,
-  },
-  cameraPlaceholderText: {
-    color: TEXT_MUTED,
-    fontSize: 14,
-    marginTop: 8,
   },
 });
