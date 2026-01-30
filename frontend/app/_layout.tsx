@@ -235,7 +235,27 @@ export default function Layout() {
     );
   }
 
-  // PORTRAIT MODE: Standard tabs - ViewfinderScreen will render its own camera
+  // PORTRAIT MODE for VIEWFINDER TAB: Camera managed here, not in ViewfinderScreen
+  // This ensures only ONE camera instance exists across the entire app
+  if (isViewfinderTab) {
+    return (
+      <CameraContext.Provider value={cameraContextValue}>
+        <StatusBar style="light" />
+        <View style={styles.portraitViewfinderContainer}>
+          {/* Camera fills the main area */}
+          <View style={styles.portraitCameraArea}>
+            {renderCamera()}
+          </View>
+          {/* Tab bar at bottom */}
+          <View style={styles.portraitTabBar}>
+            {tabsComponent}
+          </View>
+        </View>
+      </CameraContext.Provider>
+    );
+  }
+
+  // PORTRAIT MODE for other tabs: Standard tabs layout (no camera needed)
   return (
     <CameraContext.Provider value={cameraContextValue}>
       <StatusBar style="light" />
