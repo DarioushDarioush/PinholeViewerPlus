@@ -171,7 +171,7 @@ export default function CameraSettingsScreen({ settings, updateSettings }: Props
           facing="back"
           ref={cameraRef}
         />
-        <View style={styles.overlayContainer}>
+        <View style={[styles.overlayContainer, { pointerEvents: 'none' }]}>
           <View style={styles.overlayDark} />
           <View style={styles.overlayMiddleRow}>
             <View style={styles.overlayDark} />
