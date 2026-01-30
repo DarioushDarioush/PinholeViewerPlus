@@ -428,6 +428,29 @@ const styles = StyleSheet.create({
     borderColor: AMBER,
   },
   
+  // Countdown display styles
+  countdownContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+  },
+  countdownText: {
+    fontSize: 120,
+    fontWeight: '800',
+    color: AMBER,
+    textShadowColor: 'rgba(0, 0, 0, 0.8)',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 4,
+  },
+  countdownTextLandscape: {
+    fontSize: 80,
+  },
+  
   // Permission styles
   permissionContainer: {
     flex: 1,
