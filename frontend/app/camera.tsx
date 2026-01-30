@@ -13,6 +13,7 @@ export default function Camera() {
     iso: 100,
     selectedCondition: null,
     useRedFilter: false,
+    selectedFilter: 'None',
     useReciprocityFailure: true,
     bracketStops: 0,
   });
@@ -42,6 +43,7 @@ export default function Camera() {
           ...parsedSettings,
           filmFormat: parsedSettings.filmFormat || prev.filmFormat,
           filmOrientation: parsedSettings.filmOrientation || 'landscape',
+          selectedFilter: parsedSettings.selectedFilter || 'None',
         }));
       }
     } catch (error) {
