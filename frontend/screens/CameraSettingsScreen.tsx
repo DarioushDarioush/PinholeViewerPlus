@@ -11,12 +11,15 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
-import { AppSettings, FILM_FORMATS, ISO_VALUES } from '../types';
-import { useNavigation } from '@react-navigation/native';
+import { AppSettings, FILM_FORMATS, ISO_VALUES, FilmOrientation } from '../types';
 
+// WCAG AA compliant colors
 const AMBER = '#F59E0B';
 const DARK_BG = '#0a0a0a';
 const CHARCOAL = '#1a1a1a';
+const TEXT_PRIMARY = '#FFFFFF';
+const TEXT_SECONDARY = '#B3B3B3';
+const TEXT_MUTED = '#808080';
 
 interface Profile {
   id: string;
@@ -24,6 +27,7 @@ interface Profile {
   focalLength: number;
   pinholeSize: number;
   filmFormat: typeof FILM_FORMATS[0];
+  filmOrientation: FilmOrientation;
   iso: number;
 }
 
@@ -33,7 +37,6 @@ interface Props {
 }
 
 export default function CameraSettingsScreen({ settings, updateSettings }: Props) {
-  const navigation = useNavigation();
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [profileName, setProfileName] = useState('');
   const [showProfiles, setShowProfiles] = useState(false);
