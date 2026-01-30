@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from 'expo-router';
 import ViewfinderScreen from '../screens/ViewfinderScreen';
 import { AppSettings, FILM_FORMATS } from '../types';
 
@@ -15,9 +16,12 @@ export default function Index() {
     bracketStops: 0,
   });
 
-  useEffect(() => {
-    loadSettings();
-  }, []);
+  // Reload settings every time the tab comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      loadSettings();
+    }, [])
+  );
 
   const loadSettings = async () => {
     try {
