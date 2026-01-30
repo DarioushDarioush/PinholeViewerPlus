@@ -290,25 +290,17 @@ export default function CameraSettingsScreen({ settings, updateSettings }: Props
     </>
   );
 
-  // ========== LANDSCAPE LAYOUT: Live Camera LEFT, Settings RIGHT ==========
+  // ========== LANDSCAPE LAYOUT: Settings Panel only (camera is in parent _layout.tsx) ==========
   if (isLandscape) {
     return (
-      <View style={styles.landscapeContainer}>
-        {/* LEFT: Live Camera/Viewfinder */}
-        <View style={styles.landscapeLeftPanel}>
-          {renderCameraWithOverlay()}
-        </View>
-
-        {/* RIGHT: Settings Panel */}
-        <View style={styles.landscapeRightPanel}>
-          <ScrollView 
-            style={styles.scrollView}
-            contentContainerStyle={styles.landscapeScrollContent}
-            showsVerticalScrollIndicator={false}
-          >
-            {renderSettingsContent()}
-          </ScrollView>
-        </View>
+      <View style={styles.landscapeSettingsPanelOnly}>
+        <ScrollView 
+          style={styles.scrollView}
+          contentContainerStyle={styles.landscapeScrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          {renderSettingsContent()}
+        </ScrollView>
       </View>
     );
   }
