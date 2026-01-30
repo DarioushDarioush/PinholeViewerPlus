@@ -24,6 +24,11 @@ export default function Exposure() {
     }, [])
   );
 
+  // Also load on initial mount for web compatibility
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
   const loadSettings = async () => {
     try {
       const stored = await AsyncStorage.getItem('app_settings');
