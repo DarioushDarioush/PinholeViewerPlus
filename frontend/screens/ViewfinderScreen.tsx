@@ -32,6 +32,7 @@ interface Props {
 // This ensures only ONE camera instance exists across the entire app
 export default function ViewfinderScreen({ settings, updateSettings }: Props) {
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
+  const { startCountdown } = useCameraContext();
 
   const isLandscape = dimensions.width > dimensions.height;
 
@@ -46,7 +47,8 @@ export default function ViewfinderScreen({ settings, updateSettings }: Props) {
     return (settings.focalLength / settings.pinholeSize).toFixed(1);
   };
 
-  const calculateExposure = () => {
+  // Calculate raw exposure time in seconds (for countdown)
+  const calculateExposureSeconds = (): number | null => {
     if (!settings.selectedCondition) return null;
     
     const condition = LIGHTING_CONDITIONS.find(c => c.name === settings.selectedCondition);
@@ -62,12 +64,34 @@ export default function ViewfinderScreen({ settings, updateSettings }: Props) {
       exposureTime = Math.pow(exposureTime, 1.3);
     }
     
-    if (settings.useRedFilter) {
+    // Apply filter compensation
+    const selectedFilter = settings.selectedFilter || 'None';
+    const filterOption = FILTER_OPTIONS.find(f => f.name === selectedFilter);
+    if (filterOption && filterOption.stops > 0) {
+      exposureTime *= Math.pow(2, filterOption.stops);
+    } else if (settings.useRedFilter && selectedFilter === 'None') {
       exposureTime *= 8;
     }
     
     const bracketMultiplier = Math.pow(2, settings.bracketStops);
     exposureTime *= bracketMultiplier;
+    
+    return exposureTime;
+  };
+
+  const calculateExposure = () => {
+    const exposureTime = calculateExposureSeconds();
+    if (exposureTime === null) return null;
+    return formatExposure(exposureTime);
+  };
+
+  // Handle long press on exposure panel to start countdown
+  const handleExposureLongPress = () => {
+    const exposureSeconds = calculateExposureSeconds();
+    if (exposureSeconds !== null && exposureSeconds >= 1) {
+      startCountdown(exposureSeconds);
+    }
+  };
     
     return formatExposure(exposureTime);
   };
