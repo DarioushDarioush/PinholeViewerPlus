@@ -227,6 +227,30 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: DARK_BG,
   },
+  headerBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    backgroundColor: 'rgba(26, 26, 26, 0.95)',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: AMBER,
+  },
+  headerItem: {
+    alignItems: 'center',
+  },
+  headerLabel: {
+    color: '#666',
+    fontSize: 10,
+    textTransform: 'uppercase',
+    marginBottom: 2,
+  },
+  headerValue: {
+    color: AMBER,
+    fontSize: 14,
+    fontWeight: 'bold',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
   cameraContainer: {
     flex: 1,
     position: 'relative',
